@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<head>
+    <style type="text/css">
+        div {
+            position: absolute;
+            background: red;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+            var drag = document.getElementById("drag"),
+                active,
+                startX,
+                startY;
+
+            document.addEventListener('mousedown', function(e) {
+                active = true;
+                startX = e.pageX - drag.offsetLeft;
+                startY = e.pageY - drag.offsetTop;
+            });
+
+            document.addEventListener('mousemove', function(e) {
+
+                if (e.target != drag || 'mousemove' != e.type || !active) {
+                    active = false;
+                    return;
+                }
+
+                drag.style.left = e.pageX - startX;
+                drag.style.top = e.pageY - startY;
+
+            })
+
+            document.addEventListener('mouseup', function() {
+                active = false;
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="drag"></div>
+</body>
+
+</html>
