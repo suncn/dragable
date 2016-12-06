@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-
 <head>
+<meta charset="utf-8">
     <style type="text/css">
         div {
             position: absolute;
@@ -29,8 +29,8 @@
                     return;
                 }
 
-                drag.style.left = e.pageX - startX;
-                drag.style.top = e.pageY - startY;
+                drag.style.left = (e.pageX - startX) + "px";
+                drag.style.top = (e.pageY - startY) + "px";
 
             })
 
