@@ -15,25 +15,17 @@
                 active,
                 startX,
                 startY;
-
             document.addEventListener('mousedown', function(e) {
                 active = true;
                 startX = e.pageX - drag.offsetLeft;
                 startY = e.pageY - drag.offsetTop;
             });
-
             document.addEventListener('mousemove', function(e) {
-
-                if (e.target != drag || 'mousemove' != e.type || !active) {
-                    active = false;
-                    return;
+                if(active){
+                    drag.style.left = (e.pageX - startX) + "px";
+                    drag.style.top = (e.pageY - startY) + "px";
                 }
-
-                drag.style.left = (e.pageX - startX) + "px";
-                drag.style.top = (e.pageY - startY) + "px";
-
             })
-
             document.addEventListener('mouseup', function() {
                 active = false;
             });
