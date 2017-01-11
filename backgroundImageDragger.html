@@ -46,10 +46,20 @@
             mouseupHandle: function(e) {
                 this.active = false;
             },
+            switchModal: function(e) {
+                let draggerStyle = this.dragger.style;
+                draggerStyle.backgroundPosition = "0 0 ";
+                if (draggerStyle.backgroundSize === "" || draggerStyle.backgroundSize === "cover") {
+                    draggerStyle.backgroundSize = "auto";
+                } else {
+                    draggerStyle.backgroundSize = "cover"
+                }
+            },
             init: function() {
                 document.addEventListener("mousedown", this.mousedownHandle.bind(this));
                 document.addEventListener("mouseup", this.mouseupHandle.bind(this));
                 document.addEventListener("mousemove", this.mousemoveHandle.bind(this));
+                document.addEventListener("dblclick", this.switchModal.bind(this));
             }
         };
         dragableConfig.init();
