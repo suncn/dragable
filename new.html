@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #dragger {
+            height: 100%;
+            background: url("image.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        #dragger1 {
+            height: 100%;
+            background: url("image.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <script type="text/javascript">
+        function DragableConfig(dragger) {
+
+            var self = this;
+
+            this.dragger = dragger;
+
+            this.left = 0;
+            this.top = 0;
+
+            if (!!document.body) {
+                this.bind();
+            } else {
+                window.addEventListener("load", function loadFn() {
+                    self.bind();
+                    window.removeEventListener("load", loadFn, false);
+                }, false);
+            }
+
+        }
+
+        DragableConfig.prototype = {
+            mousedownHandle: function (e) {
+                this.active = true;
+                // console.log("this.dragger.style.backgroundPosition.left",this.dragger.style.backgroundPosition.left)
+                this.startX = e.pageX;
+                this.startY = e.pageY;
+
+                var backgroundPositionArr = this.dragger.style.backgroundPosition.match(/([-\d\.]*)px\s([-\d\.]*)px/);
+
+                if (!!backgroundPositionArr) {
+                    this.left = backgroundPositionArr[1] || 0;
+                    this.top = backgroundPositionArr[2] || 0;
+                }
+            },
+            mousemoveHandle: function (e) {
+                if (!!this.active) {
+                    var bp_left = e.pageX - this.startX + (this.left | 0);
+                    var bp_top = e.pageY - this.startY + (this.top | 0);
+                    this.dragger.style.backgroundPosition = bp_left + "px " + bp_top + "px";
+                }
+            },
+            mouseupHandle: function (e) {
+                this.active = false;
+            },
+            switchModal: function (e) {
+                var draggerStyle = this.dragger.style;
+                draggerStyle.backgroundPosition = "0 0 ";
+                if (draggerStyle.backgroundSize === "" || draggerStyle.backgroundSize === "cover") {
+                    draggerStyle.backgroundSize = "auto";
+                } else {
+                    draggerStyle.backgroundSize = "cover"
+                }
+            },
+            bind: function () {
+
+                var doc = document;
+                var dragger = this.dragger = document.getElementById(this.dragger);
+                dragger.addEventListener("mousedown", this.mousedownHandle.bind(this));
+                dragger.addEventListener("mouseup", this.mouseupHandle.bind(this));
+                dragger.addEventListener("mousemove", this.mousemoveHandle.bind(this));
+                dragger.addEventListener("dblclick", this.switchModal.bind(this));
+            }
+        };
+
+        var dragableConfig = new DragableConfig("dragger");
+        var dragableConfig1 = new DragableConfig("dragger1");
+    </script>
+</head>
+<body>
+    <div id="dragger"></div>
+    <div id="dragger1"></div>
+</body>
+</html>
